@@ -1,8 +1,0 @@
-{
-  "profile": "custom",
-  "capabilities": [
-    "core",
-    "ai-tools",
-    "workflow-tools"
-  ]
-}

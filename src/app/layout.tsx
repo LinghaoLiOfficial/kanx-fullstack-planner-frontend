@@ -1,31 +1,46 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Geist, Geist_Mono } from "next/font/google";
 
-import { capabilities } from "@/config/capabilities";
-import { Providers } from "@/components/providers";
+import { AppProviders } from "@/components/providers/app-providers";
+import { siteConfig } from "@/config/site";
+import { defaultLocale } from "@/lib/i18n";
 
 import "./globals.css";
 
-export const metadata: Metadata = { title: "kanx-fullstack-planner" };
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: siteConfig.name,
+  description: siteConfig.description,
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="en">
-      <body>
-        <Providers>
-          <header className="topbar">
-            <div className="shell topbar-inner">
-              <strong>kanx-fullstack-planner</strong>
-              <nav className="nav" aria-label="Primary navigation">
-                <Link href="/">Status</Link>
-                {capabilities.auth ? <Link href="/login">Sign in</Link> : null}
-                {capabilities.auth ? <Link href="/dashboard">Account</Link> : null}
-                {capabilities.storage ? <Link href="/files">Files</Link> : null}
-              </nav>
-            </div>
-          </header>
-          <main className="shell main">{children}</main>
-        </Providers>
+    <html
+      lang={defaultLocale}
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );
