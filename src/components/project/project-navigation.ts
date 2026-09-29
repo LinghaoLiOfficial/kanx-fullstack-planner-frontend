@@ -1,14 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import {
-  Braces,
-  ClipboardCheck,
-  Code2,
-  Database,
-  DraftingCompass,
   FileText,
   ListChecks,
-  Palette,
-  ScrollText,
   Settings2,
 } from "lucide-react";
 
@@ -47,25 +40,6 @@ export const projectNavGroups: ProjectNavGroup[] = [
     items: [
       { labelKey: "rawRequirements", segment: "raw-requirements", icon: FileText },
       { labelKey: "businessRequirements", segment: "business-requirements", icon: ListChecks },
-      { labelKey: "changeSets", segment: "change-sets", icon: ScrollText },
-    ],
-  },
-  {
-    labelKey: "assets",
-    items: [
-      { labelKey: "uxDesign", segment: "ux-design", icon: DraftingCompass },
-      { labelKey: "uiDesign", segment: "ui-design", icon: Palette },
-      { labelKey: "frontendImplementation", segment: "frontend-implementation", icon: Code2 },
-      { labelKey: "apiContract", segment: "api-contract", icon: Braces },
-      { labelKey: "backendImplementation", segment: "backend-implementation", icon: Code2 },
-      { labelKey: "databaseModel", segment: "database-model", icon: Database },
-    ],
-  },
-  {
-    labelKey: "delivery",
-    items: [
-      { labelKey: "delivery", segment: "delivery", icon: ScrollText },
-      { labelKey: "consistency", segment: "consistency", icon: ClipboardCheck },
     ],
   },
 ];

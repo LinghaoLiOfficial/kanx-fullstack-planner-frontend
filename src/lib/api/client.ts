@@ -3,15 +3,19 @@ import { redirectToLoginRequired } from "@/lib/auth/login-required";
 
 export class ApiError extends Error {
   status: number;
+  code?: string;
+  requestId?: string;
   detail?: unknown;
   details?: unknown;
 
-  constructor(message: string, status: number, detail?: unknown) {
+  constructor(message: string, status: number, detail?: unknown, code?: string, requestId?: string) {
     super(message);
     this.name = "ApiError";
     this.status = status;
     this.detail = detail;
     this.details = detail;
+    this.code = code;
+    this.requestId = requestId;
   }
 }
 
@@ -50,6 +54,10 @@ function getErrorMessage(payload: unknown, fallback: string) {
   if (typeof payload === "object" && payload !== null) {
     if ("message" in payload && typeof payload.message === "string") {
       return payload.message;
+    }
+
+    if ("error" in payload && typeof payload.error === "object" && payload.error !== null && "message" in payload.error && typeof payload.error.message === "string") {
+      return payload.error.message;
     }
 
     if ("detail" in payload) {
@@ -119,11 +127,8 @@ export async function apiRequest<T>(
       redirectToLoginRequired();
     }
 
-    throw new ApiError(
-      getErrorMessage(payload, text || `Request failed with status ${response.status}`),
-      response.status,
-      payload
-    );
+    const envelope = typeof payload === "object" && payload !== null && "error" in payload && typeof payload.error === "object" && payload.error !== null ? payload.error as Record<string, unknown> : undefined;
+    throw new ApiError(getErrorMessage(payload, text || `Request failed with status ${response.status}`), response.status, envelope?.details ?? payload, typeof envelope?.code === "string" ? envelope.code : undefined, typeof envelope?.request_id === "string" ? envelope.request_id : undefined);
   }
 
   if (response.status === 204) {

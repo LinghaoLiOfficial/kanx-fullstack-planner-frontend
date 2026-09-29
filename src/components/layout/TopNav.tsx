@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { FileText, FolderKanban, Plus, Users } from "lucide-react";
+import { Activity, FileText, FolderKanban, Plus, Users } from "lucide-react";
 
 import { useAuth } from "@/components/auth/AuthProvider";
 import { LanguageSelect } from "@/components/language/LanguageSelect";
@@ -49,6 +49,12 @@ export function TopNav({ compactGap = false }: { compactGap?: boolean }) {
             </Button>
             {isAdmin ? (
               <>
+                <Button asChild variant="outline" size="sm" className="hidden xl:inline-flex">
+                  <Link href="/admin/llm-tasks">
+                    <Activity className="size-4" />
+                    {t.topNav.llmTasks}
+                  </Link>
+                </Button>
                 <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
                   <Link href="/users">
                     <Users className="size-4" />

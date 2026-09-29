@@ -64,6 +64,7 @@ export const dictionaries = {
       projects: "项目",
       users: "用户管理",
       promptTemplates: "LLM 提示词模板",
+      llmTasks: "LLM 任务监控",
       new: "新建",
     },
     userMenu: {
@@ -71,6 +72,7 @@ export const dictionaries = {
       register: "注册",
       users: "用户管理",
       promptTemplates: "LLM 提示词模板",
+      llmTasks: "LLM 任务监控",
       account: "个人资料",
       logout: "退出登录",
       loggingOut: "正在退出...",
@@ -123,6 +125,24 @@ export const dictionaries = {
       taskCount: (count: number) => `${count} 个任务`,
       empty: "暂无可展示的 LLM 提示词模板。",
       loadFailed: "加载 LLM 提示词模板失败",
+    },
+    adminLLMTasks: {
+      title: "LLM 任务监控", refresh: "刷新", user: "用户 ID", project: "项目 ID",
+      status: "状态", all: "全部", apply: "筛选", task: "任务", progress: "进度",
+      created: "提交时间", updated: "更新时间", details: "查看详情", close: "关闭详情",
+      stages: "工作流阶段", calls: "LLM 调用与尝试", attempt: "尝试", input: "原始需求",
+      context: "项目上下文", businessInput: "业务输入", output: "结构化输出",
+      control: "调用参数", systemPrompt: "System Prompt", userPrompt: "User Prompt",
+      audit: "审计", gate: "门禁结果", inspect: "展开正文", collapse: "收起正文",
+      providerRetries: "Provider 内部重试仅显示配置上限，不可逐次观测。",
+      empty: "暂无匹配任务", loading: "正在加载任务...", missing: "未记录",
+      failed: "加载任务失败", page: (page: number, total: number) => `第 ${page} 页，共 ${total} 条`,
+      statuses: { queued: "排队中", running: "运行中", succeeded: "已完成",
+        needs_clarification: "待澄清", failed: "失败", cancelled: "已取消",
+        pending: "待执行", skipped: "已跳过" },
+      stageNames: { normalize_requirement: "规范化原始需求", extract_business_intents: "提取业务目标",
+        decompose_candidates: "拆分敏捷需求", enrich_requirements: "细化需求与验收标准",
+        analyze_dependencies: "分析重复与依赖", validate_and_gate: "结构与业务门禁" },
     },
     marketing: {
       eyebrow: "面向全栈开发的上下文工作台",
@@ -876,6 +896,24 @@ export const dictionaries = {
       legacySections: {
         versionSummary: "当前版本摘要",
         directoryStructure: "目录结构",
+        resources: "资源列表与接口",
+        schemas: "请求 / 响应 Schema",
+        errorModel: "错误模型",
+        frontendConsumers: "前端消费者",
+        backendServiceMappings: "后端服务映射",
+        services: "历史服务结构（兼容）",
+        crossCuttingRules: "横切规则",
+        apiMappings: "关联 API",
+        databaseMappings: "关联数据库实体",
+        externalServices: "外部服务",
+        internalUtilities: "内部工具",
+        installCommands: "安装命令",
+        databaseSettings: "数据库设置",
+        entities: "实体",
+        relationships: "关系",
+        indexes: "索引",
+        migrationNotes: "迁移说明",
+        apiFieldMappings: "API 字段映射",
         dependencies: "依赖包",
         environmentVariables: "环境变量",
         risks: "风险说明",
@@ -927,6 +965,7 @@ export const dictionaries = {
       projects: "Projects",
       users: "User management",
       promptTemplates: "LLM prompt templates",
+      llmTasks: "LLM task monitor",
       new: "New",
     },
     userMenu: {
@@ -934,6 +973,7 @@ export const dictionaries = {
       register: "Sign up",
       users: "User management",
       promptTemplates: "LLM prompt templates",
+      llmTasks: "LLM task monitor",
       account: "Profile",
       logout: "Log out",
       loggingOut: "Logging out...",
@@ -986,6 +1026,24 @@ export const dictionaries = {
       taskCount: (count: number) => `${count} ${count === 1 ? "task" : "tasks"}`,
       empty: "No LLM prompt templates to display.",
       loadFailed: "Failed to load LLM prompt templates",
+    },
+    adminLLMTasks: {
+      title: "LLM task monitor", refresh: "Refresh", user: "User ID", project: "Project ID",
+      status: "Status", all: "All", apply: "Filter", task: "Task", progress: "Progress",
+      created: "Submitted", updated: "Updated", details: "View details", close: "Close details",
+      stages: "Workflow stages", calls: "LLM calls and attempts", attempt: "Attempt", input: "Original requirement",
+      context: "Project context", businessInput: "Business input", output: "Structured output",
+      control: "Call parameters", systemPrompt: "System prompt", userPrompt: "User prompt",
+      audit: "Audit", gate: "Validation findings", inspect: "Show content", collapse: "Hide content",
+      providerRetries: "Provider retries are internal; only the configured maximum is available.",
+      empty: "No matching tasks", loading: "Loading tasks...", missing: "Not recorded",
+      failed: "Could not load tasks", page: (page: number, total: number) => `Page ${page}, ${total} tasks`,
+      statuses: { queued: "Queued", running: "Running", succeeded: "Succeeded",
+        needs_clarification: "Needs clarification", failed: "Failed", cancelled: "Cancelled",
+        pending: "Pending", skipped: "Skipped" },
+      stageNames: { normalize_requirement: "Normalize requirement", extract_business_intents: "Extract business intents",
+        decompose_candidates: "Decompose candidates", enrich_requirements: "Enrich requirements",
+        analyze_dependencies: "Analyze dependencies", validate_and_gate: "Validate and gate" },
     },
     marketing: {
       eyebrow: "Context workspace for full-stack development",
@@ -1739,6 +1797,24 @@ export const dictionaries = {
       legacySections: {
         versionSummary: "Current version summary",
         directoryStructure: "Directory structure",
+        resources: "Resources and endpoints",
+        schemas: "Request / response schemas",
+        errorModel: "Error model",
+        frontendConsumers: "Frontend consumers",
+        backendServiceMappings: "Backend service mappings",
+        services: "Legacy service structure",
+        crossCuttingRules: "Cross-cutting rules",
+        apiMappings: "Related APIs",
+        databaseMappings: "Related database entities",
+        externalServices: "External services",
+        internalUtilities: "Internal utilities",
+        installCommands: "Install commands",
+        databaseSettings: "Database settings",
+        entities: "Entities",
+        relationships: "Relationships",
+        indexes: "Indexes",
+        migrationNotes: "Migration notes",
+        apiFieldMappings: "API field mappings",
         dependencies: "Dependencies",
         environmentVariables: "Environment variables",
         risks: "Risks",
@@ -1749,7 +1825,7 @@ export const dictionaries = {
 } as const;
 
 export type I18nDictionary = (typeof dictionaries)[Locale];
-export type LegacySectionLabels = I18nDictionary["designAssets"]["legacySections"];
+export type LegacySectionLabels = Record<string, string>;
 
 export function getDictionary(locale: Locale): I18nDictionary {
   return dictionaries[locale];
@@ -1757,7 +1833,7 @@ export function getDictionary(locale: Locale): I18nDictionary {
 
 export function createLegacySections(
   labels: LegacySectionLabels,
-  keys: Array<{ key: string; labelKey: keyof LegacySectionLabels }>
+  keys: Array<{ key: string; labelKey: string }>
 ) {
   return keys.map((section) => ({
     key: section.key,

@@ -5,6 +5,7 @@ import type {
   UserRole,
 } from "@/lib/types/user";
 import type { LLMPromptTemplateModule } from "@/lib/types/llm-prompt-template";
+import type { AdminLLMTaskDetail, AdminLLMTaskPage } from "@/lib/types/admin-llm-task";
 
 export type ListAdminUsersParams = {
   q?: string;
@@ -43,4 +44,18 @@ export function disableAdminUser(userId: string) {
 
 export function listAdminLLMPromptTemplates() {
   return apiRequest<LLMPromptTemplateModule[]>("/admin/llm-prompt-templates");
+}
+
+export function listAdminLLMTasks(query: {
+  user_id?: string;
+  project_id?: string;
+  status?: string;
+  page: number;
+  page_size: number;
+}, signal?: AbortSignal) {
+  return apiRequest<AdminLLMTaskPage>("/admin/llm-tasks", { query, signal });
+}
+
+export function getAdminLLMTask(runId: string, signal?: AbortSignal) {
+  return apiRequest<AdminLLMTaskDetail>(`/admin/llm-tasks/${encodeURIComponent(runId)}`, { signal });
 }

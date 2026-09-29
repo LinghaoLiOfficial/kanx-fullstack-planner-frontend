@@ -1,3 +1,5 @@
+"use client";
+
 import { Users } from "lucide-react";
 
 import { LoginForm } from "@/components/demo/login-form";

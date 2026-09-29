@@ -74,18 +74,20 @@ export default function ProjectWorkspacePage() {
     setLoading(true);
     setError(null);
     try {
-      const [projectData, requirementsData, storiesData, changeSetsData, promptPacksData] = await Promise.all([
+      const [projectData, requirementsData] = await Promise.all([
         getProject(projectId),
         getProjectRequirements(projectId),
+      ]);
+      const [storiesResult, changeSetsResult, promptPacksResult] = await Promise.allSettled([
         listBusinessStories(projectId),
         listChangeSets(projectId),
         listPromptPacks(projectId),
       ]);
       setProject(projectData);
       setRequirements(requirementsData);
-      setBusinessStories(storiesData);
-      setChangeSets(changeSetsData);
-      setPromptPacks(promptPacksData);
+      setBusinessStories(storiesResult.status === "fulfilled" ? storiesResult.value : []);
+      setChangeSets(changeSetsResult.status === "fulfilled" ? changeSetsResult.value : []);
+      setPromptPacks(promptPacksResult.status === "fulfilled" ? promptPacksResult.value : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : t.projectPages.workspace.loadFailed);
     } finally {

@@ -26,7 +26,7 @@ export function VersionedAssetPage<TAsset extends VersionedDesignAsset>({
   title,
   description,
   emptyDescription,
-  sections,
+  sections = [],
   listAssets,
   action,
   renderContent,
@@ -36,7 +36,7 @@ export function VersionedAssetPage<TAsset extends VersionedDesignAsset>({
   title: string;
   description?: string;
   emptyDescription?: string;
-  sections: Array<{ key: string; title: string }>;
+  sections?: Array<{ key: string; title: string }>;
   listAssets: (projectId: string, options?: { signal?: AbortSignal }) => Promise<TAsset[]>;
   action?: ReactNode;
   renderContent?: (asset: TAsset, content: Record<string, unknown>, sections: Array<{ key: string; title: string }>) => ReactNode;

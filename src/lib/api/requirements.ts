@@ -1,32 +1,13 @@
 import { apiRequest } from "@/lib/api/client";
-import type {
-  BusinessStoryGenerationProgress,
-  CreateRequirementPayload,
-  Requirement,
-} from "@/lib/types/requirement";
-
-type ApiRequestOptions = {
-  signal?: AbortSignal;
-};
-
-export function getProjectRequirements(projectId: string, options?: ApiRequestOptions) {
-  return apiRequest<Requirement[]>(`/projects/${projectId}/requirements`, {
-    signal: options?.signal,
-  });
-}
-
-export function createProjectRequirement(projectId: string, payload: CreateRequirementPayload) {
-  return apiRequest<Requirement>(`/projects/${projectId}/requirements`, {
-    method: "POST",
-    body: payload,
-  });
-}
-
-export function getRequirementBusinessStoryGeneration(requirementId: string, options?: ApiRequestOptions) {
-  return apiRequest<BusinessStoryGenerationProgress | null>(
-    `/requirements/${requirementId}/business-story-generation`,
-    {
-      signal: options?.signal,
-    }
-  );
-}
+import type { AgileRequirement, CreateOrchestrationInput, Orchestration, RawRequirement, WorkflowStep, Requirement, CreateRequirementPayload } from "@/lib/types/requirement";
+export function createOrchestration(projectId: string, input: CreateOrchestrationInput, idempotencyKey: string) { return apiRequest<{ run_id: string; job_id: string; raw_requirement_id: string; status: string }>(`/projects/${projectId}/requirements/orchestrations`, { method: "POST", headers: { "Idempotency-Key": idempotencyKey }, body: input }); }
+export function getOrchestration(runId: string, options?: { signal?: AbortSignal }) { return apiRequest<Orchestration>(`/orchestrations/${runId}`, { signal: options?.signal }); }
+export function getOrchestrationSteps(runId: string, options?: { signal?: AbortSignal }) { return apiRequest<WorkflowStep[]>(`/orchestrations/${runId}/steps`, { signal: options?.signal }); }
+export function cancelOrchestration(runId: string) { return apiRequest<{ run_id: string; status: string }>(`/orchestrations/${runId}/cancel`, { method: "POST" }); }
+export function listRawRequirements(projectId: string, options?: { signal?: AbortSignal }) { return apiRequest<RawRequirement[]>(`/projects/${projectId}/raw-requirements`, { signal: options?.signal }); }
+export function getRawRequirementHistory(id: string) { return apiRequest<unknown[]>(`/raw-requirements/${id}/history`); }
+export function listAgileRequirements(projectId: string, options?: { signal?: AbortSignal }) { return apiRequest<AgileRequirement[]>(`/projects/${projectId}/requirements`, { signal: options?.signal }); }
+export function getAgileRequirementHistory(projectId: string, key: string) { return apiRequest<unknown[]>(`/projects/${projectId}/requirements/${key}/history`); }
+export async function getProjectRequirements(projectId: string, options?: { signal?: AbortSignal }): Promise<Requirement[]> { return listRawRequirements(projectId, options); }
+export async function createProjectRequirement(projectId: string, payload: CreateRequirementPayload): Promise<Requirement> { const result = await createOrchestration(projectId, { raw_text: payload.raw_text }, crypto.randomUUID()); return { id: result.raw_requirement_id, project_id: projectId, status: "processing", raw_text: payload.raw_text, latest_revision: 1, created_at: new Date().toISOString(), updated_at: new Date().toISOString() }; }
+export function getRequirementBusinessStoryGeneration(_requirementId: string, _options?: { signal?: AbortSignal }) { void _requirementId; void _options; return Promise.resolve(null); }

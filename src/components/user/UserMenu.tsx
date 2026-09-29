@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { FileText, LogOut, Settings, UserRound } from "lucide-react";
+import { Activity, FileText, LogOut, Settings, UserRound } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -115,6 +115,14 @@ export function UserMenu() {
                 <Link href="/llm-prompt-templates" onClick={() => setOpen(false)}>
                   <FileText className="size-4" />
                   {t.userMenu.promptTemplates}
+                </Link>
+              </Button>
+            ) : null}
+            {isAdmin ? (
+              <Button asChild variant="ghost" className="w-full justify-start">
+                <Link href="/admin/llm-tasks" onClick={() => setOpen(false)}>
+                  <Activity className="size-4" />
+                  {t.userMenu.llmTasks}
                 </Link>
               </Button>
             ) : null}

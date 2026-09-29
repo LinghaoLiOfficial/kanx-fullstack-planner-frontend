@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { signOut } from "@/features/auth/api";
+import { logout } from "@/lib/api/auth";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 
@@ -11,7 +11,7 @@ export function DashboardHeader() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    await signOut();
+    await logout();
     toast.success("已退出登录");
     router.push("/login");
     router.refresh();

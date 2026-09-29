@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // The browser may resolve the local dev server as either localhost or 127.0.0.1.
+  // Allow both origins so Next.js HMR resources are not blocked in development.
+  allowedDevOrigins: ["localhost", "127.0.0.1"],
   async redirects() {
     return [
       {

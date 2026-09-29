@@ -1,50 +1,11 @@
-export type BusinessStoryGenerationStatus =
-  | "idle"
-  | "running"
-  | "succeeded"
-  | "failed";
-
-export type BusinessStoryGenerationProgress = {
-  run_id: string | null;
-  status: BusinessStoryGenerationStatus;
-  progress: number;
-  message: string | null;
-  error_message?: string | null;
-  updated_at: string | null;
-};
-
-export type RequirementProgressStatus =
-  | "in_progress"
-  | "success"
-  | "failed";
-
-export type Requirement = {
-  id: string;
-  project_id: string;
-  raw_text: string;
-  language: string;
-  source_type: string;
-  progress_status?: RequirementProgressStatus;
-  progress_label?: string;
-  progress_text?: string;
-  created_at: string;
-  updated_at: string;
-  business_story_generation?: BusinessStoryGenerationProgress | null;
-};
-
-export type CreateRequirementPayload = {
-  raw_text: string;
-  language?: string;
-  source_type?: string;
-};
-
-export type RequirementFieldMetadata = {
-  chineseName: string;
-  englishName: string;
-  meaning: string;
-};
-
-export type RawUserRequirements = Requirement[];
-export type NewUserRequirement = CreateRequirementPayload;
-export type RequirementHistory = Requirement[];
-export type RequirementItem = Requirement;
+export type RawRequirementStatus = "draft" | "processing" | "processed" | "needs_clarification" | "archived";
+export type RawRequirement = { id: string; project_id: string; status: RawRequirementStatus; raw_text: string; latest_revision: number; created_at: string; updated_at: string };
+export type WorkflowRunStatus = "queued" | "running" | "needs_clarification" | "succeeded" | "failed" | "cancelled";
+export type WorkflowStep = { step_key: string; status: string; attempt: number; input_hash?: string | null; output_hash?: string | null; error?: string | null };
+export type AgileRequirement = { id?: string; project_id?: string; requirement_key: string; status: "draft" | "needs_clarification" | "ready" | "approved" | "archived"; current_revision?: number; asset: { name: string; user_story: string; business_goal: string; impact_scope: { business_domains: string[]; user_roles: string[]; business_objects: string[]; workflows: string[]; future_asset_types: string[] }; business_scope: { included: string[]; excluded: string[] }; execution_guidance: { objective: string; expected_behavior: string[]; business_rules: string[]; validation_notes: string[]; implementation_boundary: string }; acceptance_criteria: { id: string; given: string; when: string; then: string }[]; priority: "critical" | "high" | "normal" | "low"; priority_confidence: number; priority_reason: string; dependencies: string[]; assumptions: unknown[]; source_evidence: string[] } };
+export type Orchestration = { run_id: string; job_id?: string | null; status: WorkflowRunStatus; raw_requirement?: Record<string, unknown>; requirements: AgileRequirement[]; dependency_analysis?: unknown; assumptions: unknown[]; ambiguities: { id: string; question: string; related_requirement_keys: string[]; severity: string }[]; warnings: unknown[]; validation_summary: Record<string, number>; audit: Record<string, unknown>; error?: string | null; created_at?: string; updated_at?: string };
+export type CreateOrchestrationInput = { raw_text: string; base_snapshot_id?: string | null; project_context?: Record<string, unknown> };
+export type Requirement = RawRequirement & { language?: string; source_type?: string; progress_status?: RequirementProgressStatus; progress_label?: string; progress_text?: string; business_story_generation?: BusinessStoryGenerationProgress | null };
+export type CreateRequirementPayload = { raw_text: string; language?: string; source_type?: string };
+export type BusinessStoryGenerationProgress = { run_id: string | null; status: "idle" | "running" | "succeeded" | "failed"; progress: number; message: string | null; error_message?: string | null; updated_at: string | null };
+export type RequirementProgressStatus = "in_progress" | "success" | "failed";

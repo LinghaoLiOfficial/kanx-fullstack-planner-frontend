@@ -25,6 +25,14 @@ export function getRequirementProgressStatus(requirement: Requirement): Requirem
     return requirement.progress_status;
   }
 
+  if (requirement.status === "processing" || requirement.status === "draft") {
+    return "in_progress";
+  }
+
+  if (requirement.status === "processed" || requirement.status === "needs_clarification") {
+    return "success";
+  }
+
   return "failed";
 }
 
